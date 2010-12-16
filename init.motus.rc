@@ -1,0 +1,261 @@
+# Copyright (C) 2008 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+on early-init
+    device mtd@misc 0660 system radio
+
+# Set timeout value for rmnet stats.
+    write /sys/devices/virtual/net/rmnet0/timeout_suspend 5000000
+    write /sys/devices/virtual/net/rmnet0/timeout 18000000
+
+on boot
+# unmap left alt to avoid console switch
+    setkey 0x0 0x38 0x0
+# reset SEND+MENU+END
+    setkey 0x0 0xe7 0x706
+    setkey 0x0 0x8b 0x707
+    setkey 0x40 0xe7 0x706
+    setkey 0x40 0x8b 0x707
+    setkey 0x80 0xe7 0x706
+    setkey 0x80 0x8b 0x707
+    setkey 0xc0 0xe7 0x706
+    setkey 0xc0 0x8b 0x707
+    setkey 0xc0 0x6b 0x20c
+
+    mkdir /data/misc/wifi 0770 wifi wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    mkdir /data/radio 0770 radio radio
+
+    chmod 666 /dev/oncrpc/3000000e:d0b61921
+
+    # bluetooth power up/down interface
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+    chmod 0660                /sys/class/rfkill/rfkill0/state
+    chown bluetooth bluetooth /sys/module/board_motus/parameters/bluetooth_power_on
+    chown bluetooth bluetooth /sys/module/board_motus/parameters/bluetooth_power_on
+    chmod 0660 /sys/module/board_motus/parameters/bluetooth_power_on
+    chown bluetooth bluetooth /proc/bt_power
+    chmod 0666 /proc/bt_power
+    chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
+    chown bluetooth bluetooth /proc/bluetooth/sleep/proto
+    chown system system /sys/module/sco/parameters/disable_esco
+    chmod 0660 /sys/module/bluetooth_power/parameters/power
+    chmod 0660 /proc/bluetooth/sleep/proto
+    chown bluetooth bluetooth /dev/ttyHS0
+    chmod 0660 /dev/ttyHS0
+    ln -s /dev/ttyHS0 /dev/ttyMSM0
+    chmod 0666 /dev/msm_snd
+    chown system camera /dev/msm_camera0
+    #  E-compass
+    chown system system /dev/akm8973_aot
+    chown system system /dev/akm8973_dev
+    chmod 0660 /dev/akm8973_dev
+    # proximity
+    chown system system /sys/devices/platform/sfh7743.-2/proximity
+    
+    # radio
+    chown root radio /proc/cmdline
+
+    # wakelocks
+    chown radio system /sys/android_power/state
+    chown radio system /sys/android_power/request_state
+    chown radio system /sys/android_power/acquire_full_wake_lock
+    chown radio system /sys/android_power/acquire_partial_wake_lock
+    chown radio system /sys/android_power/release_wake_lock
+    chown radio system /sys/power/state
+    chown radio system /sys/power/wake_lock
+    chown radio system /sys/power/wake_unlock
+    chmod 0664 /sys/power/state
+    chmod 0660 /sys/power/wake_lock
+    chmod 0660 /sys/power/wake_unlock
+    setprop hw.keyboards.0.devname adp5588_motus
+    chown system system /sys/class/leds/keyboard-backlight/brightness
+    chmod 0660 /sys/class/leds/keyboard-backlight/brightness
+    chown system system /sys/class/leds/keyboard-tcmd/brightness
+    chmod 0660 /sys/class/leds/keyboard-tcmd/brightness
+    chown system system /sys/class/leds/keyboard1-backlight/brightness
+    chown system system /sys/class/leds/keyboard2-backlight/brightness
+    chown system system /sys/class/leds/lcd-backlight/brightness
+    chmod 0660 /sys/class/leds/lcd-backlight/brightness
+    chown system system /sys/class/leds/lcd-backlight/suspend
+    chown system system /sys/class/leds/lcd-nr-backlight/brightness
+    chown system system /sys/class/leds/button-tcmd/brightness
+    chown media media /sys/class/leds/af-led/brightness 
+    chown system system /sys/class/leds/button-backlight/brightness
+    chmod 0660 /sys/class/leds/button-backlight/brightness
+    chown system system /sys/class/leds/messaging/brightness
+    chown system system /sys/class/leds/messaging/blink
+    chown system system /sys/class/leds/soc/brightness
+    chown system system /sys/class/leds/soc/blink
+    chown system system /dev/als
+    chmod 0664 /dev/als
+    chown system system /sys/class/timed_output/vibrator/enable
+    chown system system /sys/module/sco/parameters/disable_esco
+    chown system system /sys/kernel/ipv4/tcp_rmem_max
+    chown system system /dev/proximity
+    chmod 0644 /dev/proximity
+    chown root radio /proc/cmdline
+    chown bluetooth bluetooth /sys/module/bluetooth_power/parameters/power
+    chown bluetooth bluetooth /proc/bluetooth/sleep/proto
+    chown system system /sys/module/sco/parameters/disable_esco
+    chmod 0660 /sys/module/bluetooth_power/parameters/power
+    chmod 0660 /proc/bluetooth/sleep/proto
+    chown bluetooth bluetooth /dev/ttyHS0
+    chmod 0660 /dev/ttyHS0
+    chmod 0666 /dev/msm_snd
+    chmod 0660 /dev/smdcntl0
+    chmod 0660 /dev/smdcntl1
+    chmod 0660 /dev/smdcntl2
+
+
+# Vibrator
+    chown system system /sys/class/vibrator/vibrator/enable
+    chown system system /sys/class/timed_output/vibrator/enable
+
+
+# 12m
+    mkdir /data/local/12m 0771 system system
+    mkdir /data/local/12m/batch 0771 system system
+    mkdir /data/local/12m/batch/log 0771 system system
+
+# Accelerometer
+    chown system system /sys/class/i2c-adapter/i2c-0/0-0018/mode
+    chmod 0664 /sys/class/i2c-adapter/i2c-0/0-0018/mode
+    chown system system /dev/accelerometer
+    chmod 0664 /dev/accelerometer
+    chown system system /dev/lis331dlh
+    chmod 0664 /dev/lis331dlh
+
+# Touchpad
+    chown system input /dev/touchpad
+    chmod 0664 /dev/touchpad
+
+# Minipad
+    chown system input /dev/minipad
+    chmod 0664 /dev/minipad
+
+# Camera LED brightness attributes accessible to all
+    chown system camera /sys/devices/platform/flashlight.0/leds/flashlight/brightness
+    chmod 0660 /sys/devices/platform/flashlight.0/leds/flashlight/brightness
+
+    chmod 0666 /sys/class/leds/flashlight/brightness
+    chmod 0666 /sys/class/leds/cam-torch/brightness
+    chown system system /sys/devices/platform/camera-led.0/leds/cam-torch
+    chown system camera /sys/devices/platform/camera-led.0/leds/cam-torch/brightness
+    chmod 0660 /sys/devices/platform/camera-led.0/leds/cam-torch/brightness
+
+# Wakelock debug
+#     write /sys/module/wakelock/parameters/debug_mask 7
+
+# Permissions changes needed for TCMD
+    chown system system /dev/blan_enable
+    chmod 0660 /dev/blan_enable
+    chown system system /dev/misc_helper
+    chmod 0660 /dev/misc_helper
+    chmod 0644 /dev/block/mmcblk0p1
+
+# Permissions needed for /port_bridge
+    chown root system /dev/ttyHSUSB0
+    chmod 0660 /dev/ttyHSUSB0
+
+# Clearing FM/BT reference count temp file  contents
+    write /data/bluedroid_ref 123456
+    chmod 0777 /data/bluedroid_ref
+
+    chown system system /sys/module/sco/parameters/disable_esco
+    chown system system /sys/kernel/ipv4/tcp_wmem_min
+    chown system system /sys/kernel/ipv4/tcp_wmem_def
+    chown system system /sys/kernel/ipv4/tcp_wmem_max
+    chown system system /sys/kernel/ipv4/tcp_rmem_min
+    chown system system /sys/kernel/ipv4/tcp_rmem_def
+    chown system system /sys/kernel/ipv4/tcp_rmem_max
+
+
+    # cpufreq configurations
+#    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 245760
+#    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
+#    write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 40000
+#    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 85
+
+    # lowmemkiller adjustments   
+    write /sys/module/lowmemorykiller/parameters/adj 0,1,2,7,14,15
+
+    write /proc/sys/vm/overcommit_memory 1
+    write /proc/sys/vm/min_free_order_shift 4
+    write /sys/module/lowmemorykiller/parameters/minfree 1536,2048,4096,5120,5632,6144
+
+    # Set init its forked children's oom_adj.
+    write /proc/1/oom_adj -16
+
+    # Tweak background writeout
+    write /proc/sys/vm/dirty_expire_centisecs 200
+    write /proc/sys/vm/dirty_background_ratio  5
+
+
+# E-Compass  daemon
+service akmd2 /system/bin/akmd2 -f /system/etc/akm/akmd_set.cfg
+    user system
+    group input compass system misc
+    oneshot
+
+## TCMD
+service tcmd /system/bin/tcmd_engine usb0
+
+
+service port_bridge /system/bin/port_bridge /dev/smd0 /dev/ttyHSUSB0
+    oneshot
+
+service fuel_gauge /system/bin/fuel_gauge --all
+    group system
+    oneshot
+
+service qmuxd /system/bin/qmuxd
+    oneshot
+
+service wpa_supplicant /system/bin/wpa_supplicant  -Dwext -ieth0 -c/data/misc/wifi/wpa_supplicant.conf
+#       user system - this makes socket() calls fail with permission denied
+#    group wifi system
+    socket wpa_eth0 dgram 660 wifi system
+    disabled
+    oneshot
+
+service dhcpcd /system/bin/dhcpcd -ABKL eth0
+    group dhcp
+    disabled
+    oneshot
+
+#bluetooth 
+service hciattach /system/bin/init.bt.sh
+    user bluetooth
+    group bluetooth net_bt_admin net_admin net_raw misc
+    disabled
+
+# touchpad service
+service touchpad /system/bin/touchpad -a /data/touchpad.log
+    user system
+    group input misc
+    oneshot
+
+
+# Modemlog
+service modemlog /system/bin/modemlog
+    user system
+    oneshot
+
+service minipadut /system/bin/minipadut -a
+   user system 
+   group input misc
+   oneshot
