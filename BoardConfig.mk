@@ -20,7 +20,7 @@
 # WARNING: This line must come *before* including the proprietary
 # variant, so that it gets overwritten by the parent (which goes
 # against the traditional rules of inheritance).
-# USE_CAMERA_STUB := true
+USE_CAMERA_STUB := true
 
 # inherit from the proprietary version
 -include vendor/motorola/motus/BoardConfigVendor.mk
@@ -68,6 +68,8 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 # OpenGL drivers config file path
 BOARD_EGL_CFG := device/motorola/motus/prebuilt/lib/egl/egl.cfg
 
+BOARD_NO_RGBX_8888 := true
+
 # Use libcamera2
 BOARD_USES_OLD_CAMERA_HACK := true
 
@@ -75,6 +77,9 @@ BOARD_USES_OLD_CAMERA_HACK := true
 BOARD_NO_PV_AUTHORING_CLOCK := true
 
 BOARD_USES_QCOM_LIBS := true
+
+#bootloopy
+#BOARD_USES_ECLAIR_LIBCAMERA := true
 
 TARGET_RELEASETOOLS_EXTENSIONS := device/motorola/common
 

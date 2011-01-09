@@ -80,9 +80,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_KERNEL):kernel
 
 PRODUCT_COPY_FILES += \
+    device/motorola/motus/vold.fstab:/system/etc/vold.fstab \
     device/motorola/motus/prebuilt/bin/init.bt.sh:/system/bin/init.bt.sh \
     device/motorola/motus/prebuilt/etc/media_profiles.xml:/system/etc/media_profiles.xml \
-    device/motorola/motus/prebuilt/etc/vold.fstab:system/etc/vold.fstab \
     device/motorola/motus/prebuilt/etc/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
     device/motorola/motus/prebuilt/etc/wifi/backoff.conf:system/etc/wifi/backoff.conf \
     device/motorola/motus/prebuilt/etc/dhcpcd/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf \

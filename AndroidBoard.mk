@@ -26,7 +26,7 @@ $(file) : $(LOCAL_PATH)/init.motus.rc | $(ACP)
 	$(transform-prebuilt-to-target)
 
 include $(CLEAR_VARS)
-LOCAL_SRC_FILES := $(LOCAL_PATH)/prebuilt/usr/keychars/motus-kpd.kcm
+LOCAL_SRC_FILES := prebuilt/usr/keychars/motus-kpd.kcm
 include $(BUILD_KEY_CHAR_MAP)
 
 file := $(TARGET_OUT_KEYLAYOUT)/adp5588_motus.kl
@@ -74,7 +74,7 @@ ALL_PREBUILT += $(INSTALLED_KERNEL_TARGET)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE_CLASS := ETC
-LOCAL_MODULE := $(LOCAL_PATH)/prebuilt/etc/vold.fstab
+LOCAL_MODULE := vold.fstab
 LOCAL_SRC_FILES := $(LOCAL_MODULE)
 include $(BUILD_PREBUILT)
 
